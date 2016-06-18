@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -36,10 +37,9 @@ public class Workspace extends AppWorkspaceComponent {
 
     MapViewerApp app;
     FlowPane temp;
-    int counterZoom = 1;
+    int counterZoom = 0;
     int counterRight = 0;
     int counterUp = 0;
-    
 
     public Workspace(MapViewerApp initApp) {
         app = initApp;
@@ -52,67 +52,82 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     public void fixLayout() {
-
         Scale scale = new Scale();
-
         scale.setX(5.3);
         scale.setY(-5.3);
-        //scale.setPivotX(app.getGUI().getWindow().getWidth() / 2);
-        // scale.setPivotY(app.getGUI().getWindow().getHeight() / 2);
-
-       // scale.pivotYProperty().bind(Bindings.createDoubleBinding(()
-        //        -> workspace.getBoundsInLocal().getMinY() + workspace.getBoundsInLocal().getHeight() / 2,
-        //        workspace.boundsInLocalProperty()));
         workspace.getTransforms().add(scale);
-        workspace.setTranslateX(-10 +app.getGUI().getWindow().getWidth() / 2);
-        workspace.setTranslateY(-55 +app.getGUI().getWindow().getHeight() / 2);
+        workspace.setTranslateX(-10 + app.getGUI().getWindow().getWidth() / 2);
+        workspace.setTranslateY(6 + app.getGUI().getWindow().getHeight() / 2);
     }
+
     private void setupHandlers() {
-    app.getGUI().getPrimaryScene().setOnMousePressed(e -> {
-                zoom();
+        app.getGUI().getPrimaryScene().setOnMousePressed(e -> {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                zoomIn();
+            }
+            if (e.getButton().equals(MouseButton.SECONDARY)) {
+                zoomOut();
+            }
         });
-    app.getGUI().getPrimaryScene().setOnKeyPressed(e -> {
-        if(e.getCode().equals(KeyCode.RIGHT)) {
-            moveRight();
+
+        app.getGUI().getPrimaryScene().setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.RIGHT)) {
+                moveRight();
+            }
+            if (e.getCode().equals(KeyCode.LEFT)) {
+                moveLeft();
+            }
+            if (e.getCode().equals(KeyCode.UP)) {
+                moveUp();
+            }
+            if (e.getCode().equals(KeyCode.DOWN)) {
+                moveDown();
+            }
         }
-        if(e.getCode().equals(KeyCode.LEFT)) {
-            moveLeft();
-        }
-        if(e.getCode().equals(KeyCode.UP)) {
-            moveUp();
-        }
-        if(e.getCode().equals(KeyCode.DOWN)) {
-            moveDown();
-        }
-    }
-    );
+        );
 
     }
-    public void zoom() {
+
+    public void zoomIn() {
         workspace.getTransforms().clear();
         Scale scale = new Scale();
-        scale.setX(5.3+(counterZoom*.5));
-        scale.setY(-5.3-(counterZoom*.5));
         counterZoom++;
+        scale.setX(5.3 + (counterZoom * .5));
+        scale.setY(-5.3 - (counterZoom * .5));
+
         workspace.getTransforms().add(scale);
     }
+
+    public void zoomOut() {
+        workspace.getTransforms().clear();
+        Scale scale = new Scale();
+        counterZoom--;
+        scale.setX(5.3 + (counterZoom * .5));
+        scale.setY(-5.3 - (counterZoom * .5));
+
+        workspace.getTransforms().add(scale);
+    }
+
     public void moveRight() {
-        counterRight++;
-        workspace.setTranslateX(-10 - counterRight  +app.getGUI().getWindow().getWidth() / 2);
-        
+        counterRight = counterRight + 5;
+        workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
+
     }
+
     public void moveLeft() {
-       counterRight--;
-        workspace.setTranslateX(-10 - counterRight  +app.getGUI().getWindow().getWidth() / 2);
-        
+        counterRight = counterRight - 5;
+        workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
+
     }
+
     public void moveUp() {
-        counterUp++;
-        workspace.setTranslateY(-55 +counterUp +app.getGUI().getWindow().getHeight() / 2);
+        counterUp = counterUp + 5;
+        workspace.setTranslateY(6 + counterUp + app.getGUI().getWindow().getHeight() / 2);
     }
+
     public void moveDown() {
-        counterUp--;
-        workspace.setTranslateY(-55 +counterUp +app.getGUI().getWindow().getHeight() / 2);
+        counterUp = counterUp - 5;
+        workspace.setTranslateY(6 + counterUp + app.getGUI().getWindow().getHeight() / 2);
     }
 
     public void layoutMap() {
@@ -122,8 +137,8 @@ public class Workspace extends AppWorkspaceComponent {
             Polygon myGon = new Polygon();
             for (int j = 0; j < listy.size(); j++) {
                 Double[] myAr = listy.get(j);
-              //   myAr[0] = myAr[0] + workspace.getBoundsInLocal().getWidth() / 2;
-              //   myAr[1] = myAr[1] + workspace.getBoundsInLocal().getHeight() / 2;
+                //   myAr[0] = myAr[0] + workspace.getBoundsInLocal().getWidth() / 2;
+                //   myAr[1] = myAr[1] + workspace.getBoundsInLocal().getHeight() / 2;
                 myGon.getPoints().addAll(myAr);
             }
             myGon.setFill(Paint.valueOf("#006400"));
@@ -133,18 +148,15 @@ public class Workspace extends AppWorkspaceComponent {
             app.getGUI().getAppPane().setCenter(workspace);
             app.getGUI().getPrimaryScene().setFill(Paint.valueOf("#add8e6"));
         }
-        
+        app.getGUI().getAppPane().setStyle("-fx-background-color: blue;");
 
-        // workspace.setBackground(new Background(new BackgroundFill(Paint.valueOf("#add8e6"), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     @Override
     public void reloadWorkspace() {
-        FileManager temp = (FileManager) app.getFileComponent();
-        if (temp.getLoaded()) {
-            layoutMap();
-            fixLayout();
-        }
+        workspace.getChildren().clear();
+        layoutMap();
+        fixLayout();
 
     }
 
@@ -157,6 +169,16 @@ public class Workspace extends AppWorkspaceComponent {
         FlowPane temp = (FlowPane) app.getGUI().getAppPane().getTop();
         temp.getChildren().remove(0);
         temp.getChildren().remove(1);
+    }
+
+    @Override
+    public void activateWorkspace(BorderPane appPane) {
+        if (!workspaceActivated) {
+            // PUT THE WORKSPACE IN THE GUI
+            appPane.setCenter(workspace);
+            workspaceActivated = true;
+            workspace.toBack();
+        }
     }
 
 }
