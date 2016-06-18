@@ -13,19 +13,23 @@ import java.util.ArrayList;
  */
 public class RegionItem {
 
-    ArrayList<double[]> myList;
-    double[] tempList;
+    ArrayList<Double[]> myList;
+    Double[] tempList;
 
     public RegionItem() {
-        myList = new ArrayList<double[]>();
+        myList = new ArrayList<Double[]>();
     }
 
     public void add(double x, double y) {
-        tempList = new double[2];
+        tempList = new Double[2];
         tempList[0] = x;
         tempList[1] = y;
         System.out.println(x);
         System.out.println(y);
         myList.add(tempList);
+    }
+    
+    public ArrayList<Double[]> get() {
+        return myList;
     }
 }

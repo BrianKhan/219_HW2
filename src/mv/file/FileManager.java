@@ -25,7 +25,7 @@ import saf.components.AppFileComponent;
  * @author McKillaGorilla
  */
 public class FileManager implements AppFileComponent {
-
+    boolean loaded;
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
         //Clear old data
@@ -45,7 +45,10 @@ public class FileManager implements AppFileComponent {
                 dataManager.addItem(item);
             }
         }
-
+        loaded=true;
+    }
+    public boolean getLoaded() {
+        return loaded;
     }
 
     public RegionItem loadItem(JsonArray jsonItem) {
