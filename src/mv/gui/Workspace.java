@@ -6,11 +6,21 @@
 package mv.gui;
 
 import java.util.ArrayList;
+import javafx.beans.binding.Bindings;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import saf.components.AppWorkspaceComponent;
 import mv.MapViewerApp;
 import mv.data.DataManager;
@@ -31,22 +41,40 @@ public class Workspace extends AppWorkspaceComponent {
         // make sure save and new are removed
         removeExtra();
         //layoutMap();
+        fixLayout();
+    }
+
+    public void fixLayout() {
+
+        Scale scale = new Scale();
+
+        scale.setX(1);
+        scale.setY(-1);
+        scale.pivotYProperty().bind(Bindings.createDoubleBinding(()
+                -> workspace.getBoundsInLocal().getMinY() + workspace.getBoundsInLocal().getHeight() / 2,
+                workspace.boundsInLocalProperty()));
+        workspace.getTransforms().add(scale);
     }
 
     public void layoutMap() {
         DataManager dataManager = (DataManager) app.getDataComponent();
         Group g = new Group();
+
         for (int i = 0; i < dataManager.getItems().size(); i++) {
             ArrayList<Double[]> listy = dataManager.getItems().get(i).get();
+            Polygon myGon = new Polygon();
+
             for (int j = 0; j < listy.size(); j++) {
-                Polygon myGon = new Polygon();
-                myGon.getPoints().addAll(listy.get(j));
-                g.getChildren().add(myGon);
+                Double[] myAr = listy.get(j);
+                myGon.getPoints().addAll(myAr);
+                System.out.println("added: " + myAr[0] + " AND " + myAr[1]);
+
             }
-
+            myGon.setFill(Paint.valueOf("#006400"));
+            workspace.getChildren().add(myGon);
+            app.getGUI().getAppPane().setCenter(workspace);
         }
-
-        workspace.getScene().setRoot(g);
+        // workspace.setBackground(new Background(new BackgroundFill(Paint.valueOf("#add8e6"), CornerRadii.EMPTY, Insets.EMPTY)));
 
     }
 

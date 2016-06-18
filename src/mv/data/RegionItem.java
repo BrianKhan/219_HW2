@@ -24,8 +24,6 @@ public class RegionItem {
         tempList = new Double[2];
         tempList[0] = x;
         tempList[1] = y;
-        System.out.println(x);
-        System.out.println(y);
         myList.add(tempList);
     }
     
