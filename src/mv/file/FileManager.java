@@ -8,6 +8,7 @@ package mv.file;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonNumber;
@@ -32,50 +33,54 @@ public class FileManager implements AppFileComponent {
         dataManager.reset();
         // load JSON
         JsonObject json = loadJSONFile(filePath);
-        
+
         JsonArray jsonItemArray = json.getJsonArray("SUBREGIONS");
-        for(int i = 0; i < jsonItemArray.size();i++) {
+        for (int i = 0; i < jsonItemArray.size(); i++) {
             //returns array of subregion polygons
             JsonObject jsonItem = jsonItemArray.getJsonObject(i);
-            JsonArray jsonSecond = jsonItem.getJsonArray("SUBREGION_POLYGONS");            
-            for (int j = 0; j < jsonSecond.size();j++) {
+            JsonArray jsonSecond = jsonItem.getJsonArray("SUBREGION_POLYGONS");
+            for (int j = 0; j < jsonSecond.size(); j++) {
                 JsonArray jsonRegion = jsonSecond.getJsonArray(j);
-                
-                 RegionItem item = loadItem(jsonSecond);
-                 dataManager.addItem(item);
+                RegionItem item = loadItem(jsonRegion);
+                dataManager.addItem(item);
             }
         }
-        
+
     }
+
     public RegionItem loadItem(JsonArray jsonItem) {
-        for(int i = 0; i < jsonItem.size(); i++) {
-            
+        RegionItem region = new RegionItem();
+        for (int i = 0; i < jsonItem.size(); i++) {
+            JsonObject myItem = jsonItem.getJsonObject(i);
+            double x = myItem.getJsonNumber("X").doubleValue();
+            double y = myItem.getJsonNumber("Y").doubleValue();
+            region.add(x, y);
         }
-        RegionItem test = new RegionItem() ;
-            return test;
-        
+
+        return region;
+
     }
-    
+
     public double getDataAsDouble(JsonObject json, String dataName) {
-	JsonValue value = json.get(dataName);
-	JsonNumber number = (JsonNumber)value;
-	return number.bigDecimalValue().doubleValue();	
+        JsonValue value = json.get(dataName);
+        JsonNumber number = (JsonNumber) value;
+        return number.bigDecimalValue().doubleValue();
     }
-    
+
     public int getDataAsInt(JsonObject json, String dataName) {
         JsonValue value = json.get(dataName);
-        JsonNumber number = (JsonNumber)value;
+        JsonNumber number = (JsonNumber) value;
         return number.bigIntegerValue().intValue();
     }
-    
+
     // HELPER METHOD FOR LOADING DATA FROM A JSON FORMAT
     private JsonObject loadJSONFile(String jsonFilePath) throws IOException {
-	InputStream is = new FileInputStream(jsonFilePath);
-	JsonReader jsonReader = Json.createReader(is);
-	JsonObject json = jsonReader.readObject();
-	jsonReader.close();
-	is.close();
-	return json;
+        InputStream is = new FileInputStream(jsonFilePath);
+        JsonReader jsonReader = Json.createReader(is);
+        JsonObject json = jsonReader.readObject();
+        jsonReader.close();
+        is.close();
+        return json;
     }
 
     @Override
@@ -92,6 +97,5 @@ public class FileManager implements AppFileComponent {
     public void importData(AppDataComponent data, String filePath) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

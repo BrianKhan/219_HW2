@@ -12,14 +12,20 @@ import java.util.ArrayList;
  * @author Brian
  */
 public class RegionItem {
-    ArrayList<int[]> myList;
+
+    ArrayList<double[]> myList;
+    double[] tempList;
+
     public RegionItem() {
-        
+        myList = new ArrayList<double[]>();
     }
-    public void add(int x, int y) {
-        int[] tempList = new int[2];
+
+    public void add(double x, double y) {
+        tempList = new double[2];
         tempList[0] = x;
         tempList[1] = y;
+        System.out.println(x);
+        System.out.println(y);
         myList.add(tempList);
     }
 }
