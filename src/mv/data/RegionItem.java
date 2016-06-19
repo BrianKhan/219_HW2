@@ -26,7 +26,7 @@ public class RegionItem {
         tempList[1] = y;
         myList.add(tempList);
     }
-    
+
     public ArrayList<Double[]> get() {
         return myList;
     }
