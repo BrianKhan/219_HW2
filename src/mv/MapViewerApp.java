@@ -20,6 +20,7 @@ import static javafx.application.Application.launch;
  * JavaFX application.
  *
  * @author Richard McKenna
+ * @author Brian Khaneyan
  * @version 1.0
  */
 public class MapViewerApp extends AppTemplate {

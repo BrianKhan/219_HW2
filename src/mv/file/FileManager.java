@@ -23,6 +23,7 @@ import saf.components.AppFileComponent;
 /**
  *
  * @author McKillaGorilla
+ * @author Brian  Khaneyan
  */
 public class FileManager implements AppFileComponent {
 
@@ -42,6 +43,8 @@ public class FileManager implements AppFileComponent {
             JsonObject jsonItem = jsonItemArray.getJsonObject(i);
             JsonArray jsonSecond = jsonItem.getJsonArray("SUBREGION_POLYGONS");
             for (int j = 0; j < jsonSecond.size(); j++) {
+                // we go through this array and get each item, send it to loaditem
+                // note that we are sending an array of points to loaditem, but each array of points is one polygon
                 JsonArray jsonRegion = jsonSecond.getJsonArray(j);
                 RegionItem item = loadItem(jsonRegion);
                 dataManager.addItem(item);
@@ -56,6 +59,7 @@ public class FileManager implements AppFileComponent {
 
     public RegionItem loadItem(JsonArray jsonItem) {
         RegionItem region = new RegionItem();
+        // we go through each set of points in the polygon and return it as a region item
         for (int i = 0; i < jsonItem.size(); i++) {
             JsonObject myItem = jsonItem.getJsonObject(i);
             double x = myItem.getJsonNumber("X").doubleValue();

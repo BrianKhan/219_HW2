@@ -8,6 +8,7 @@ package mv;
 /**
  *
  * @author McKillaGorilla
+ * @author Brian Khaneyan
  */
 public enum PropertyType {
     OK_PROMPT,

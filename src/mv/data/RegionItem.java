@@ -9,10 +9,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Brian
+ * @author Brian Khaneyan
  */
 public class RegionItem {
 
+    // This is the class for each polygon
+    // we have an arraylist of arrays that contains 2 double values
+    // we have add and get methods for our arraylist
     ArrayList<Double[]> myList;
     Double[] tempList;
 

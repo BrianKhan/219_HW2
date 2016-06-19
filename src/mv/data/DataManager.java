@@ -11,9 +11,11 @@ import saf.AppTemplate;
 /**
  *
  * @author McKillaGorilla
+ * @author Brian Khaneyan
  */
 public class DataManager implements AppDataComponent {
 
+    // this data manager is a simple implementation that contains an observable list with an add and get function, as well as a reload function
     MapViewerApp app;
     ObservableList<RegionItem> items;
     Workspace workspace;
@@ -33,6 +35,7 @@ public class DataManager implements AppDataComponent {
 
     @Override
     public void reset() {
+        // we clear the list as well as disable some ui elements
         FlowPane temp = (FlowPane) app.getGUI().getAppPane().getTop();
         temp.getChildren().get(0).setDisable(true);
         items.clear();
