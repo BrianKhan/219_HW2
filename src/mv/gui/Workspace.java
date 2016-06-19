@@ -45,6 +45,7 @@ public class Workspace extends AppWorkspaceComponent {
     int debug = 0;
     int xloc = 0;
     int yloc = 0;
+    boolean reloaded;
 
     public Workspace(MapViewerApp initApp) {
         app = initApp;
@@ -66,11 +67,12 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     private void setupHandlers() {
-        app.getGUI().getPrimaryScene().setOnMousePressed(e -> {
+        app.getGUI().getPrimaryScene().setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 zoomIn(e);
             }
             if (e.getButton().equals(MouseButton.SECONDARY)) {
+
                 zoomOut();
             }
         });
@@ -94,8 +96,9 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     public void zoomIn(MouseEvent e) {
-        int xloc = (int) (e.getX() - app.getGUI().getWindow().getWidth() / 2);
-        int yloc = (int) (e.getY() - app.getGUI().getWindow().getHeight() / 2);
+
+        xloc = (int) (e.getX() - app.getGUI().getWindow().getWidth() / 2);
+        yloc = (int) (e.getY() - app.getGUI().getWindow().getHeight() / 2);
         counterRight = counterRight + xloc;
         counterUp = counterUp - yloc;
         workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
@@ -177,16 +180,18 @@ public class Workspace extends AppWorkspaceComponent {
 
         workspace.getTransforms().clear();
         workspace.getChildren().clear();
-        int counterZoom = 0;
-        int counterRight = 0;
-        int counterUp = 0;
-        int debug = 0;
-        int xloc = 0;
-        int yloc = 0;
-        System.out.println("reload called");
+        counterZoom = 0;
+        counterRight = 0;
+        counterUp = 0;
+        debug = 0;
+        xloc = 0;
+        yloc = 0;
         // workspace = new Pane();
+        reloaded = true;
         layoutMap();
         fixLayout();
+        reloaded = false;
+        System.out.println(counterRight);
 
     }
 
