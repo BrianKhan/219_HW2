@@ -20,6 +20,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
@@ -41,6 +42,9 @@ public class Workspace extends AppWorkspaceComponent {
     int counterZoom = 0;
     int counterRight = 0;
     int counterUp = 0;
+    int debug = 0;
+    int xloc = 0;
+    int yloc = 0;
 
     public Workspace(MapViewerApp initApp) {
         app = initApp;
@@ -151,20 +155,36 @@ public class Workspace extends AppWorkspaceComponent {
             myGon.setStroke(Paint.valueOf("#000000"));
             myGon.setStrokeWidth(.01);
             workspace.getChildren().add(myGon);
-            app.getGUI().getAppPane().setCenter(workspace);
             app.getGUI().getPrimaryScene().setFill(Paint.valueOf("#add8e6"));
         }
+        makeLines();
         app.getGUI().getAppPane().setStyle("-fx-background-color: blue;");
 
     }
 
+    public void makeLines() {
+        Line equator = new Line();
+        equator.setStartX(0);
+        equator.setStartY(-2000);
+        equator.setEndX(0);
+        equator.setEndY(2000);
+        workspace.getChildren().add(equator);
+    }
+
     @Override
     public void reloadWorkspace() {
+        DataManager dataManager = (DataManager) app.getDataComponent();
+
+        workspace.getTransforms().clear();
+        workspace.getChildren().clear();
         int counterZoom = 0;
         int counterRight = 0;
         int counterUp = 0;
-        workspace.getTransforms().clear();
-        workspace.getChildren().clear();
+        int debug = 0;
+        int xloc = 0;
+        int yloc = 0;
+        System.out.println("reload called");
+        // workspace = new Pane();
         layoutMap();
         fixLayout();
 
@@ -176,15 +196,17 @@ public class Workspace extends AppWorkspaceComponent {
     }
 
     public void removeExtra() {
-        FlowPane temp = (FlowPane) app.getGUI().getAppPane().getTop();
-        temp.getChildren().remove(0);
-        temp.getChildren().remove(1);
+        if (!workspaceActivated) {
+            FlowPane temp = (FlowPane) app.getGUI().getAppPane().getTop();
+            temp.getChildren().remove(0);
+            temp.getChildren().remove(1);
+        }
     }
 
     @Override
     public void activateWorkspace(BorderPane appPane) {
         if (!workspaceActivated) {
-            
+
             // PUT THE WORKSPACE IN THE GUI
             appPane.setCenter(workspace);
             workspaceActivated = true;
