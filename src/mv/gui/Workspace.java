@@ -12,6 +12,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -63,7 +64,7 @@ public class Workspace extends AppWorkspaceComponent {
     private void setupHandlers() {
         app.getGUI().getPrimaryScene().setOnMousePressed(e -> {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
-                zoomIn();
+                zoomIn(e);
             }
             if (e.getButton().equals(MouseButton.SECONDARY)) {
                 zoomOut();
@@ -88,13 +89,18 @@ public class Workspace extends AppWorkspaceComponent {
 
     }
 
-    public void zoomIn() {
+    public void zoomIn(MouseEvent e) {
+        int xloc = (int) (e.getX() - app.getGUI().getWindow().getWidth() / 2);
+        int yloc = (int) (e.getY() - app.getGUI().getWindow().getHeight() / 2);
+        counterRight = counterRight + xloc;
+        counterUp = counterUp - yloc;
+        workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
+        workspace.setTranslateY(6 + counterUp + app.getGUI().getWindow().getHeight() / 2);
         workspace.getTransforms().clear();
         Scale scale = new Scale();
         counterZoom++;
         scale.setX(5.3 + (counterZoom * .5));
         scale.setY(-5.3 - (counterZoom * .5));
-
         workspace.getTransforms().add(scale);
     }
 
@@ -154,6 +160,10 @@ public class Workspace extends AppWorkspaceComponent {
 
     @Override
     public void reloadWorkspace() {
+        int counterZoom = 0;
+        int counterRight = 0;
+        int counterUp = 0;
+        workspace.getTransforms().clear();
         workspace.getChildren().clear();
         layoutMap();
         fixLayout();
@@ -174,6 +184,7 @@ public class Workspace extends AppWorkspaceComponent {
     @Override
     public void activateWorkspace(BorderPane appPane) {
         if (!workspaceActivated) {
+            
             // PUT THE WORKSPACE IN THE GUI
             appPane.setCenter(workspace);
             workspaceActivated = true;
