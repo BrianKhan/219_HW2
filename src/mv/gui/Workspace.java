@@ -38,7 +38,7 @@ import mv.file.FileManager;
  * @author McKillaGorilla
  */
 public class Workspace extends AppWorkspaceComponent {
-
+    
     MapViewerApp app;
     FlowPane temp;
     int counterZoom = 0;
@@ -62,18 +62,18 @@ public class Workspace extends AppWorkspaceComponent {
     Line tenth = new Line();
     Line eleventh = new Line();
     Line twelvth = new Line();
-
+    
     Line firsty = new Line();
     Line secondy = new Line();
     Line thirdy = new Line();
     Line fourthy = new Line();
     Line fifthy = new Line();
     Line sixthy = new Line();
-
+    
     Rectangle myLine;
-
+    
     boolean on = true;
-
+    
     public Workspace(MapViewerApp initApp) {
         app = initApp;
         workspace = new Pane();
@@ -82,9 +82,9 @@ public class Workspace extends AppWorkspaceComponent {
         removeExtra();
         //layoutMap();
         setupHandlers();
-
+        
     }
-
+    
     public void fixLayout() {
         Scale scale = new Scale();
         scale.setX(5.3);
@@ -93,18 +93,18 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.setTranslateX(-10 + app.getGUI().getWindow().getWidth() / 2);
         workspace.setTranslateY(6 + app.getGUI().getWindow().getHeight() / 2);
     }
-
+    
     private void setupHandlers() {
         app.getGUI().getPrimaryScene().setOnMouseClicked(e -> {
             if (e.getButton().equals(MouseButton.PRIMARY)) {
                 zoomIn(e);
             }
             if (e.getButton().equals(MouseButton.SECONDARY)) {
-
+                
                 zoomOut();
             }
         });
-
+        
         app.getGUI().getPrimaryScene().setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.RIGHT)) {
                 moveRight();
@@ -118,14 +118,14 @@ public class Workspace extends AppWorkspaceComponent {
             if (e.getCode().equals(KeyCode.DOWN)) {
                 moveDown();
             }
-            /*   if (e.getCode().equals(KeyCode.G)) {
+               if (e.getCode().equals(KeyCode.G)) {
                 toggleLines();
-            }  */
+            }  
         }
         );
-
+        
     }
-
+    
     public void zoomIn(MouseEvent e) {
 
         xloc = (int) (e.getX() - app.getGUI().getWindow().getWidth() / 2);
@@ -163,42 +163,42 @@ public class Workspace extends AppWorkspaceComponent {
         firsty.getStrokeDashArray().addAll(2d,2d);
          */
     }
-
+    
     public void zoomOut() {
         workspace.getTransforms().clear();
         Scale scale = new Scale();
         counterZoom--;
         scale.setX(5.3 + (counterZoom * .5));
         scale.setY(-5.3 - (counterZoom * .5));
-
+        
         workspace.getTransforms().add(scale);
         //  twelvth.getStrokeDashArray().clear();
 
         //  twelvth.getStrokeDashArray().addAll(2.0 * 1.25, 2.0 * 1.25);
     }
-
+    
     public void moveRight() {
         counterRight = counterRight + 5;
         workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
-
+        
     }
-
+    
     public void moveLeft() {
         counterRight = counterRight - 5;
         workspace.setTranslateX(-10 - counterRight + app.getGUI().getWindow().getWidth() / 2);
-
+        
     }
-
+    
     public void moveUp() {
         counterUp = counterUp + 5;
         workspace.setTranslateY(6 + counterUp + app.getGUI().getWindow().getHeight() / 2);
     }
-
+    
     public void moveDown() {
         counterUp = counterUp - 5;
         workspace.setTranslateY(6 + counterUp + app.getGUI().getWindow().getHeight() / 2);
     }
-
+    
     public void layoutMap() {
         DataManager dataManager = (DataManager) app.getDataComponent();
         for (int i = 0; i < dataManager.getItems().size(); i++) {
@@ -218,9 +218,9 @@ public class Workspace extends AppWorkspaceComponent {
         }
         makeLines();
         app.getGUI().getAppPane().setStyle("-fx-background-color: #99d6ff;");
-
+        
     }
-
+    
     public void makeLines() {
         /*     myLine = new Rectangle();
         myLine.setX(0);
@@ -229,21 +229,21 @@ public class Workspace extends AppWorkspaceComponent {
         myLine.setHeight(2000.0);
         myLine.setFill(Paint.valueOf("#ffffff"));
         workspace.getChildren().add(myLine); */
-
+        
         equator.setFill(Paint.valueOf("#ffffff"));
         equator.setStroke(Paint.valueOf("#ffffff"));
         equator.setStartX(-2000);
         equator.setStartY(0);
         equator.setEndX(2000);
         equator.setEndY(0);
-
+        
         meridian.setFill(Paint.valueOf("#ffffff"));
         meridian.setStroke(Paint.valueOf("#ffffff"));
         meridian.setStartX(0);
         meridian.setStartY(-2000);
         meridian.setEndX(0);
         meridian.setEndY(2000);
-
+        
         first.setFill(Paint.valueOf("#ffffff"));
         first.setStroke(Paint.valueOf("#ffffff"));
         first.setStartX(-179);
@@ -316,49 +316,49 @@ public class Workspace extends AppWorkspaceComponent {
         twelvth.setEndX(150);
         twelvth.setEndY(-2000);
         twelvth.setStroke(Paint.valueOf("#ffffff"));
-
+        
         firsty.setFill(Paint.valueOf("#ffffff"));
         firsty.setStroke(Paint.valueOf("#ffffff"));
         firsty.setStartX(-2000);
         firsty.setStartY(30);
         firsty.setEndX(2000);
         firsty.setEndY(30);
-
+        
         secondy.setFill(Paint.valueOf("#ffffff"));
         secondy.setStroke(Paint.valueOf("#ffffff"));
         secondy.setStartX(-2000);
         secondy.setStartY(60);
         secondy.setEndX(2000);
         secondy.setEndY(60);
-
+        
         thirdy.setFill(Paint.valueOf("#ffffff"));
         thirdy.setStroke(Paint.valueOf("#ffffff"));
         thirdy.setStartX(-2000);
         thirdy.setStartY(90);
         thirdy.setEndX(2000);
         thirdy.setEndY(90);
-
+        
         fourthy.setFill(Paint.valueOf("#ffffff"));
         fourthy.setStroke(Paint.valueOf("#ffffff"));
         fourthy.setStartX(-2000);
         fourthy.setStartY(-30);
         fourthy.setEndX(2000);
         fourthy.setEndY(-30);
-
+        
         fifthy.setFill(Paint.valueOf("#ffffff"));
         fifthy.setStroke(Paint.valueOf("#ffffff"));
         fifthy.setStartX(-2000);
         fifthy.setStartY(-60);
         fifthy.setEndX(2000);
         fifthy.setEndY(-60);
-
+        
         sixthy.setFill(Paint.valueOf("#ffffff"));
         sixthy.setStroke(Paint.valueOf("#ffffff"));
         sixthy.setStartX(-2000);
         sixthy.setStartY(-90);
         sixthy.setEndX(2000);
         sixthy.setEndY(-90);
-
+        
         twelvth.getStrokeDashArray().addAll(2d, 2d);
         eleventh.getStrokeDashArray().addAll(2d, 2d);
         tenth.getStrokeDashArray().addAll(2d, 2d);
@@ -377,7 +377,7 @@ public class Workspace extends AppWorkspaceComponent {
         thirdy.getStrokeDashArray().addAll(2d, 2d);
         secondy.getStrokeDashArray().addAll(2d, 2d);
         firsty.getStrokeDashArray().addAll(2d, 2d);
-
+        
         first.setStrokeWidth(.5);
         second.setStrokeWidth(.5);
         third.setStrokeWidth(.5);
@@ -396,7 +396,7 @@ public class Workspace extends AppWorkspaceComponent {
         fourthy.setStrokeWidth(.5);
         fifthy.setStrokeWidth(.5);
         sixthy.setStrokeWidth(.5);
-
+        
         workspace.getChildren().add(equator);
         workspace.getChildren().add(meridian);
         workspace.getChildren().add(first);
@@ -417,34 +417,63 @@ public class Workspace extends AppWorkspaceComponent {
         workspace.getChildren().add(fourthy);
         workspace.getChildren().add(fifthy);
         workspace.getChildren().add(sixthy);
-
+        
     }
 
-    /*  public void toggleLines() {
+      public void toggleLines() {
 
-        if (on) {
-
-            // do off
-            myLine.setVisible(false);
-            workspace.getChildren().removeAll(myLine);
-          //  workspace.getChildren().removeAll(meridian);
-          //  workspace.getChildren().removeAll(equator);
-            on = false;
-
+        if(on) {
+        workspace.getChildren().get(workspace.getChildren().indexOf(sixthy)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fifthy)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fourthy)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(thirdy)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(secondy)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(firsty)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(twelvth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(eleventh)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(tenth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(ninth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(eighth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(seventh)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(sixth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fifth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fourth)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(third)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(second)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(first)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(equator)).setVisible(false);
+        workspace.getChildren().get(workspace.getChildren().indexOf(meridian)).setVisible(false);
+        
+        on = false;
         }
-        if (!on) {
-            myLine.setVisible(true);
-            workspace.getChildren().add(myLine);
-          //  workspace.getChildren().add(meridian);
-          //  workspace.getChildren().add(equator);
-            on = true;
-            // workspace.getChildren().get(workspace.getChildren().lastIndexOf(meridian)).setVisible(true);
+        else if(!on) {
+            workspace.getChildren().get(workspace.getChildren().indexOf(sixthy)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fifthy)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fourthy)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(thirdy)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(secondy)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(firsty)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(twelvth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(eleventh)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(tenth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(ninth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(eighth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(seventh)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(sixth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fifth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(fourth)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(third)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(second)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(first)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(equator)).setVisible(true);
+        workspace.getChildren().get(workspace.getChildren().indexOf(meridian)).setVisible(true);
+        on = true;
         }
-    } */
+    } 
     @Override
     public void reloadWorkspace() {
         DataManager dataManager = (DataManager) app.getDataComponent();
-
+        
         workspace.getTransforms().clear();
         workspace.getChildren().clear();
         counterZoom = 0;
@@ -459,14 +488,14 @@ public class Workspace extends AppWorkspaceComponent {
         fixLayout();
         reloaded = false;
         System.out.println(counterRight);
-
+        
     }
-
+    
     @Override
     public void initStyle() {
         DataManager dataManager = (DataManager) app.getDataComponent();
     }
-
+    
     public void removeExtra() {
         if (!workspaceActivated) {
             FlowPane temp = (FlowPane) app.getGUI().getAppPane().getTop();
@@ -474,7 +503,7 @@ public class Workspace extends AppWorkspaceComponent {
             temp.getChildren().remove(1);
         }
     }
-
+    
     @Override
     public void activateWorkspace(BorderPane appPane) {
         if (!workspaceActivated) {
@@ -485,5 +514,5 @@ public class Workspace extends AppWorkspaceComponent {
             workspace.toBack();
         }
     }
-
+    
 }
