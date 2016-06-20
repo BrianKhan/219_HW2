@@ -352,8 +352,8 @@ public class Workspace extends AppWorkspaceComponent {
         fifth.getStrokeDashArray().addAll(2d, 2d);
         fourth.getStrokeDashArray().addAll(2d, 2d);
         third.getStrokeDashArray().addAll(2d, 2d);
-        second.getStrokeDashArray().addAll(2d, 2d);
-        first.getStrokeDashArray().addAll(2d, 2d);
+        // second.getStrokeDashArray().addAll(2d, 2d);
+        // first.getStrokeDashArray().addAll(2d, 2d);
         sixthy.getStrokeDashArray().addAll(2d, 2d);
         fifthy.getStrokeDashArray().addAll(2d, 2d);
         fourthy.getStrokeDashArray().addAll(2d, 2d);
@@ -361,8 +361,8 @@ public class Workspace extends AppWorkspaceComponent {
         secondy.getStrokeDashArray().addAll(2d, 2d);
         firsty.getStrokeDashArray().addAll(2d, 2d);
         // we make the grid lines smaller than the equator and meridian lines
-        first.setStrokeWidth(.5);
-        second.setStrokeWidth(.5);
+        // first.setStrokeWidth(.5);
+        //  second.setStrokeWidth(.5);
         third.setStrokeWidth(.5);
         fourth.setStrokeWidth(.5);
         fifth.setStrokeWidth(.5);
